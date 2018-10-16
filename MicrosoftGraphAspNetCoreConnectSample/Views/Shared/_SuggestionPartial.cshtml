@@ -1,0 +1,10 @@
+﻿@using SuggestionsService.Model
+@model Suggestion
+
+<div class="suggestion">
+    <div class="app-info">
+        <img class="app-icon" src="@Model.AppInfo.Icon" />
+        <span class="app-name">@Model.AppInfo.Name</span>
+    </div>
+    @Html.Raw(SuggestionsService.Helpers.CardRenderingHelper.RenderToHtml(Model.AdaptiveCard))
+</div>

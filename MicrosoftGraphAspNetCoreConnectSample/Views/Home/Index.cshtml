@@ -1,0 +1,60 @@
+﻿<!--  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+        See LICENSE in the source repository root for complete license information. -->
+@using SuggestionsService.Model
+@model HomeModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+<h2>Microsoft Graph ASP.NET Core 2.0 Connect Sample</h2>
+@if (!User.Identity.IsAuthenticated)
+{
+    <br />
+    <p>Choose <b>Sign in</b> at the top of the page and sign in with your work or school account.</p>
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="alert alert-info @(TempData["Message"] == null ? "hidden" : null)" role="alert">
+        @Html.Raw(TempData["Message"])
+    </div>
+    <br />
+    
+    <div class="row">
+        <div class="col-md-3">
+            <img src="@ViewData["Picture"]" style="border-radius: 50%; height: 200px; width: 200px; margin: 20px;" />
+        </div>
+        <div class="col-md-9">
+            <pre>@ViewData["Response"]</pre>
+        </div>
+    </div>
+
+    <br />
+    <h4>Suggestions</h4>
+
+    <div class="row">
+        @if (Model.Suggestions != null)
+        {
+            foreach (var s in Model.Suggestions)
+            {
+                Html.RenderPartial("_SuggestionPartial", s);
+
+            }
+
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-md-9">
+            <pre>@ViewData["Suggestions"]</pre>
+        </div>
+    </div>
+
+    <br />
+    <h4>Send an email</h4>
+    <form asp-controller="Home" asp-action="SendEmail" method="post">
+        <div class="form-group">
+            <label for="recipients">Recipient email addresses, separated by a semicolon</label>
+            <input type="text" name="recipients" value="@ViewData["Email"]" style="width: 300px;" />
+            <button type="submit">Send email</button>
+        </div>
+    </form>
+}
